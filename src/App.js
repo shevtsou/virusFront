@@ -5,24 +5,37 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
 `
-
 const Text = styled.div`
-  font-size: 120px;
+  font-size: 3rem;
   font-weight: bold;
-  margin-top: -30%;
+`
+
+const SoftText = styled(Text)`
+  color: #389acf;
+`
+
+const ValuesText = styled.div`
+  font-size: 5rem;
+  font-weight: bold;
   color: red;
+  margin-bottom: 50px;
 `
 
 class App extends React.Component {
 
   state = {
-    count: 669312
+    infected: 0,
+    views: 0,
+    chance: 0,
+    fetched: false,
   }
   componentDidMount() {
+    fetch("http://localhost:3001/visit");
     setInterval(() => {
       fetch("http://localhost:3001/count", {
         headers: {
@@ -32,8 +45,12 @@ class App extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
+          console.log(result)
           this.setState((state) => ({
-            count: result.infected
+            infected: result.infected,
+            views: result.visitors,
+            chance: result.chance,
+            fetched: true
           }))
         }
       )
@@ -42,9 +59,31 @@ class App extends React.Component {
   render() {
     return (
       <Wrapper>
-        <Text>
-          {this.state.count.toFixed(0)}
-        </Text>
+        { this.state.fetched ? (
+          <>
+            <Text>
+              Views
+            </Text>
+            <ValuesText>
+              {this.state.views.toFixed(0)}
+            </ValuesText>
+            <Text>
+              Infected
+            </Text>
+            <ValuesText>
+              {this.state.infected.toFixed(0)}
+            </ValuesText>
+            <Text>
+              Infection chance
+            </Text>
+            <ValuesText>
+              {(this.state.chance * 100).toFixed(3)}%
+            </ValuesText>
+          </>
+        ): (
+          <SoftText>Be careful...</SoftText>
+        )}
+        
       </Wrapper>
     );
   }
