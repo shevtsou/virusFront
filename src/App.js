@@ -35,13 +35,9 @@ class App extends React.Component {
     fetched: false,
   }
   componentDidMount() {
-    fetch("http://localhost:3001/visit");
+    fetch("http://167.172.149.169:3001/visit");
     setInterval(() => {
-      fetch("http://localhost:3001/count", {
-        headers: {
-          'Origin': 'http://localhost:3001',
-        }
-      })
+      fetch("http://167.172.149.169:3001/count")
       .then(res => res.json())
       .then(
         (result) => {
