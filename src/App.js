@@ -81,7 +81,7 @@ class App extends React.Component {
             </ValuesText>
           </>
         ): (
-          <SoftText>Be careful...</SoftText>
+          <SoftText>Please, stay at home...</SoftText>
         )}
         
       </Wrapper>
